@@ -3,9 +3,8 @@ using TimeTrackingSystem.Models;
 
 namespace TimeTrackingSystem.Models;
 
-/// <summary>
 /// Orari i punës (p.sh. 8:00-16:00, 9:00-17:00, etj.)
-/// </summary>
+
 public class WorkSchedule
 {
     public int Id { get; set; }
@@ -23,14 +22,12 @@ public class WorkSchedule
     [Required(ErrorMessage = "Ora e mbarimit është e detyrueshme")]
     public TimeSpan EndTime { get; set; } // p.sh. 16:00:00
 
-    /// <summary>
     /// Sa orë duhet të punojë punonjësi sipas këtij orari (llogaritet automatikisht)
-    /// </summary>
+
     public double ExpectedHours { get; set; } // p.sh. 8.0
 
-    /// <summary>
     /// Ditët e javës kur aplikohet ky orar (p.sh. "Monday,Tuesday,Wednesday,Thursday,Friday")
-    /// </summary>
+    
     [StringLength(200)]
     public string? WorkDays { get; set; }
 

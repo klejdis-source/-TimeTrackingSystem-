@@ -10,35 +10,31 @@ public class Attendance
     [Required]
     public int EmployeeId { get; set; }
 
-    [Required(ErrorMessage = "Data është e detyrueshme")]
-    public DateTime Date { get; set; } // Data e punës 
+    [Required]
+    public DateTime Date { get; set; }
 
-    [Required(ErrorMessage = "Ora e hyrjes është e detyrueshme")]
-    public DateTime CheckInTime { get; set; } // Ora e saktë e hyrjes
+    [Required]
+    public DateTime CheckIn { get; set; }
 
-    public DateTime? CheckOutTime { get; set; } // Ora e daljes 
+    public DateTime? CheckOut { get; set; }
 
     public double WorkedHours { get; set; }
 
     [StringLength(20)]
     public string Status { get; set; } = "Present";
 
-   
     public bool IsLate { get; set; }
 
-    
     public int LateMinutes { get; set; }
 
-   
     public bool IsEarlyLeave { get; set; }
 
-    
     public int EarlyLeaveMinutes { get; set; }
 
     [StringLength(500)]
-    public string? Notes { get; set; } // Shënime për këtë ditë
+    public string? Notes { get; set; }
 
-    public bool IsApproved { get; set; } // A është aprovuar nga manageri
+    public bool IsApproved { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
