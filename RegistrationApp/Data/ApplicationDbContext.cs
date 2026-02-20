@@ -55,11 +55,11 @@ public class AppDbContext : DbContext
             Pozition = "System Administrator",
             IsActive = true,
             Role = "Admin",
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin123!"),
-            CreatedAt = DateTime.UtcNow,
-
-            DepartmentId = 1,
-            OrariId = 1
+            // Përdor një hash të gatshëm (ky më poshtë është hash-i i "Admin123!")
+            PasswordHash = "$2a$11$ev7LzH.6Yf3DovD29.7G9uRPhYpUfH6r7G.RjXGqY5U1K/6Xh/vG.",
+            CreatedAt = new DateTime(2024, 1, 1),
+            DepartmentId = null,
+            OrariId =null
         });
     }
 }

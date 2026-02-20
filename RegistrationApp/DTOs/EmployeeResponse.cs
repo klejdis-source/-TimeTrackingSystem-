@@ -9,7 +9,7 @@ public class EmployeeResponse
     public string Pozition { get; set; } = string.Empty;
     public string Role { get; set; } = string.Empty;
     public bool IsActive { get; set; }
-    public int DepartmentId { get; set; }
+    public int? DepartmentId { get; set; }
     public string? DepartmentName { get; set; }
     public int OrariId { get; set; }
     public string? OrariName { get; set; }

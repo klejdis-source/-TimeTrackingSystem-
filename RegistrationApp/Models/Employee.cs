@@ -11,8 +11,8 @@ public class Employee
     public string Role { get; set; } = "Employee"; // Employee | Admin
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public int DepartmentId { get; set; }
-    public int OrariId { get; set; }
+    public int? DepartmentId { get; set; }
+    public int? OrariId { get; set; }
 
     public Department? Department { get; set; }
     public WorkSchedule? Orari { get; set; }

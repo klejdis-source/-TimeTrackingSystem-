@@ -11,10 +11,10 @@ builder.Services.AddControllers();
 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")));
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-
+builder.Services.AddAuthentication("Timetracking").AddCookie("Timetracking");
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -29,7 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+ app.UseHttpsRedirection(); 
 
 app.UseAuthorization();
 

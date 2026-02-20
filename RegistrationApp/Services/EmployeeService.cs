@@ -50,7 +50,7 @@ public class EmployeeService : IEmployeeService
         return ToResponse(full!);
     }
 
-    public async Task<EmployeeResponse?> UpdateAsync(int id, UpdateEmployeeRequest request)
+    public async Task<EmployeeResponse?> UpdateAsync(int id, UpdateEmployeeReqUest request)
     {
         var emp = await _repo.GetByIdAsync(id);
         if (emp is null) return null;
@@ -78,10 +78,10 @@ public class EmployeeService : IEmployeeService
         Email = e.Email,
         Pozition = e.Pozition,
         Role = e.Role,
-        IsActive = e.IsActive,
-        DepartmentId = e.DepartmentId,
-        DepartmentName = e.Department?.Name,
-        OrariId = e.OrariId,
-        OrariName = e.Orari?.Name
+        IsActive = e.IsActive, 
+        //DepartmentId =(int) e.DepartmentId,
+        //DepartmentName = e.Department?.Name ??null,
+        //OrariId = (int)e.OrariId,
+        //OrariName = e.Orari?.Name
     };
 }
