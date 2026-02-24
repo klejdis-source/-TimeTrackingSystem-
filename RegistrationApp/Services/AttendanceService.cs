@@ -45,7 +45,7 @@ public class AttendanceService : IAttendanceService
         {
             EmployeeId = userId,
             Date = now.Date,
-            CheckIn = now,
+            ClockIn = now,
             WorkedHours = 0,
             Status = "Present",
             IsLate = isLate,
@@ -81,8 +81,8 @@ public class AttendanceService : IAttendanceService
             }
         }
 
-        active.CheckOut = now;
-        active.WorkedHours = (now - active.CheckIn).TotalHours;
+        active.ClockOut = now;
+        active.WorkedHours = (now - active.ClockIn).TotalHours;
         active.IsEarlyLeave = isEarlyLeave;
         active.EarlyLeaveMinutes = earlyLeaveMinutes;
         active.UpdatedAt = now;
@@ -110,8 +110,8 @@ public class AttendanceService : IAttendanceService
         EmployeeId = a.EmployeeId,
         FullName = $"{a.Employee.FirstName} {a.Employee.LastName}",
         Date = a.Date,
-        CheckIn = a.CheckIn,
-        CheckOut = a.CheckOut,
+        CheckIn = a.ClockIn,
+        CheckOut = a.ClockOut,
         WorkedHours = a.WorkedHours,
         Status = a.Status,
         IsLate = a.IsLate,

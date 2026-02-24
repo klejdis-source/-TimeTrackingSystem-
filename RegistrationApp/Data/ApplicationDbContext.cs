@@ -54,12 +54,11 @@ public class AppDbContext : DbContext
             Email = "admin@company.com",
             Pozition = "System Administrator",
             IsActive = true,
-            Role = "Admin",
-            // Përdor një hash të gatshëm (ky më poshtë është hash-i i "Admin123!")
-            PasswordHash = "$2a$11$ev7LzH.6Yf3DovD29.7G9uRPhYpUfH6r7G.RjXGqY5U1K/6Xh/vG.",
+            Roles = Roles.Admin_Access,
+            PasswordHash = "$2a$11$RJDla1K73tLW9St81vvftuKmpEXprsebCENr9m6js8T.slt/3zKNO",// te sistemohet 
             CreatedAt = new DateTime(2024, 1, 1),
             DepartmentId = null,
-            OrariId =null
+            OrariId = null
         });
     }
 }

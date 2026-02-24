@@ -1,8 +1,11 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using BCrypt.Net;
 using System.Text;
 using TimeTrackingSystem.DTOs;
+using TimeTrackingSystem.Models;
 using TimeTrackingSystem.Repositories.Interfaces;
 
 namespace TimeTrackingSystem.Services;
@@ -18,7 +21,7 @@ public class AuthService : IAuthService
         _config = config;
     }
 
-    public async Task<LoginResponse?> LoginAsync(LoginRequest request)
+    public async Task<LoginResponse?> LoginAsync(LoginDto request)
     {
         var user = await _users.GetByEmailAsync(request.Email);
         if (user is null || !user.IsActive) return null;
@@ -31,10 +34,11 @@ public class AuthService : IAuthService
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role),
+            new Claim(ClaimTypes.Role, user.Roles.ToString()),
             new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}")
         };
 
+        //kalosh dhe rolin
         var token = new JwtSecurityToken(
             issuer: _config["Jwt:Issuer"],
             audience: _config["Jwt:Audience"],
@@ -45,8 +49,31 @@ public class AuthService : IAuthService
 
         return new LoginResponse(
             new JwtSecurityTokenHandler().WriteToken(token),
-            user.Role,
+            user.Roles.ToString(),
             $"{user.FirstName} {user.LastName}"
         );
+    }
+    public async Task<bool> RegisterAsync(SignUpRequest request)
+    {
+        var existing = await _users.GetByEmailAsync(request.Email);
+        if (existing is not null) return false;
+
+        var employee = new Employee
+        {
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Email = request.Email,
+            Pozition = request.Pozition,
+       
+            Roles=request.Roles,
+            IsActive = true,
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
+            CreatedAt = DateTime.UtcNow,
+            DepartmentId = request.DepartmentId,
+            OrariId = request.OrariId
+        };
+
+        await _users.CreateAsync(employee);
+        return true;
     }
 }

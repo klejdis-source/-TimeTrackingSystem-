@@ -11,13 +11,13 @@ public class AttendanceRepository : IAttendanceRepository
     public AttendanceRepository(AppDbContext db) => _db = db;
 
     public async Task<Attendance?> GetActiveByUserAsync(int userId) =>
-        await _db.Attendances.FirstOrDefaultAsync(a => a.EmployeeId == userId && a.CheckOut == null);
+        await _db.Attendances.FirstOrDefaultAsync(a => a.EmployeeId == userId && a.ClockOut == null);
 
     public async Task<IEnumerable<Attendance>> GetByUserAsync(int userId) =>
         await _db.Attendances
             .Include(a => a.Employee)
             .Where(a => a.EmployeeId == userId)
-            .OrderByDescending(a => a.CheckIn)
+            .OrderByDescending(a => a.ClockIn)
             .ToListAsync();
 
     public async Task<IEnumerable<Attendance>> GetByUserAndPeriodAsync(int userId, DateTime from, DateTime to) =>
@@ -30,7 +30,7 @@ public class AttendanceRepository : IAttendanceRepository
     public async Task<IEnumerable<Attendance>> GetAllAsync() =>
         await _db.Attendances
             .Include(a => a.Employee)
-            .OrderByDescending(a => a.CheckIn)
+            .OrderByDescending(a => a.ClockIn)
             .ToListAsync();
 
     public async Task<Attendance> CreateAsync(Attendance attendance)

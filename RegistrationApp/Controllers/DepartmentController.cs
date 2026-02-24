@@ -5,22 +5,16 @@ using TimeTrackingSystem.Services;
 
 namespace TimeTrackingSystem.Controllers;
 
-
 [ApiController]
 [Route("api/[controller]")]
-///[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin")] // vetem Admin menaxhon departamentet
 public class DepartmentController : ControllerBase
 {
     private readonly IDepartmentService _departments;
-
     public DepartmentController(IDepartmentService departments) => _departments = departments;
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var departments = await _departments.GetAllAsync();
-        return Ok(departments);
-    }
+    public async Task<IActionResult> GetAll() => Ok(await _departments.GetAllAsync());
 
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)
@@ -50,4 +44,3 @@ public class DepartmentController : ControllerBase
         return ok ? NoContent() : NotFound(new { message = "Departamenti nuk u gjet." });
     }
 }
-

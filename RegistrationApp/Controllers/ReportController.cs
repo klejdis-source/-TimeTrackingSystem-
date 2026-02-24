@@ -7,22 +7,15 @@ namespace TimeTrackingSystem.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-///[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Report_access")] // Admin + Employee me Report_access
 public class ReportController : ControllerBase
 {
     private readonly IReportService _report;
-
     public ReportController(IReportService report) => _report = report;
 
-    /// Merr orët e punës për të gjithë punonjësit
     [HttpGet("hours")]
-    public async Task<IActionResult> GetAllHours()
-    {
-        var result = await _report.GetAllUsersHoursAsync();
-        return Ok(result);
-    }
+    public async Task<IActionResult> GetAllHours() => Ok(await _report.GetAllUsersHoursAsync());
 
-    /// Merr raportin e orëve për një punonjës në një periudhë
     [HttpPost("period")]
     public async Task<IActionResult> GetPeriodReport([FromBody] PeriodReportRequest request)
     {
@@ -37,16 +30,11 @@ public class ReportController : ControllerBase
         }
     }
 
-    /// Merr të gjitha overtimes
     [HttpGet("overtime")]
-    public async Task<IActionResult> GetAllOvertime()
-    {
-        var result = await _report.GetAllOvertimeAsync();
-        return Ok(result);
-    }
+    public async Task<IActionResult> GetAllOvertime() => Ok(await _report.GetAllOvertimeAsync());
 
-    /// Shton overtime për një punonjës
     [HttpPost("overtime")]
+    [Authorize(Roles = "Admin")] // vetem Admin shton overtime
     public async Task<IActionResult> AddOvertime([FromBody] CreateOvertimeRequest request)
     {
         try

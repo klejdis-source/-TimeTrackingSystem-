@@ -7,29 +7,19 @@ namespace TimeTrackingSystem.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-//[Authorize]
+[Authorize(Roles = "Admin")] // vetem Admin menaxhon punonjësit
 public class EmployeeController : ControllerBase
 {
     private readonly IEmployeeService _employees;
-
     public EmployeeController(IEmployeeService employees) => _employees = employees;
 
-    //[HttpGet]
-    ////[Authorize(Roles = "Admin")]
-    //public async Task<IActionResult> GetAll() => Ok(await _employees.GetAllAsync());
-
-
     [HttpGet]
-    //[Authorize(Roles = "Admin")]
     public async Task<IEnumerable<EmployeeResponse>> GetAllEmployee()
     {
-        var test =await  _employees.GetAllAsync();
-        return test;
+        return await _employees.GetAllAsync();
     }
 
-
     [HttpGet("{id:int}")]
-   // [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetById(int id)
     {
         var employee = await _employees.GetByIdAsync(id);
@@ -37,7 +27,6 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPost]
-   // [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] CreateEmployeeRequest request)
     {
         try
@@ -52,7 +41,6 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-  //  [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateEmployeeReqUest request)
     {
         var updated = await _employees.UpdateAsync(id, request);
@@ -60,7 +48,6 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-  //  [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Deactivate(int id)
     {
         var ok = await _employees.DeactivateAsync(id);

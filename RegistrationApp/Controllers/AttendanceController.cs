@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using TimeTrackingSystem.Models;
 using TimeTrackingSystem.Services;
 
 namespace TimeTrackingSystem.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
+[Authorize(Roles = "Attendance_access")] // në nivel controller
 public class AttendanceController : ControllerBase
 {
     private readonly IAttendanceService _attendance;
@@ -20,7 +21,13 @@ public class AttendanceController : ControllerBase
     {
         try
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+            {
+                return Unauthorized(new { message = "User identifier is missing or invalid." });
+            }
+
             var result = await _attendance.ClockInAsync(userId);
             return Ok(result);
         }
@@ -63,7 +70,7 @@ public class AttendanceController : ControllerBase
         return Ok(result);
     }
 
-    /// Merr rekordet e attendance për një punonjës specifik (Admin only)
+    /// Merr rekordet e attendance për një punonjës specifik 
     [HttpGet("user/{id:int}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetByUser(int id)
@@ -79,7 +86,7 @@ public class AttendanceController : ControllerBase
         }
     }
 
-    /// Merr të gjitha rekordet e attendance (Admin only)
+    /// Merr të gjitha rekordet e attendance 
     [HttpGet]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAll()

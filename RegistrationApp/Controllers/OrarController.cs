@@ -7,18 +7,18 @@ namespace TimeTrackingSystem.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "Admin")]
+//[Authorize(Roles = "Admin")] 
 public class OrarController : ControllerBase
 {
     private readonly IOrarService _orar;
-
     public OrarController(IOrarService orar) => _orar = orar;
 
     [HttpGet]
-    public async Task<IActionResult> GetAll() =>
-        Ok(await _orar.GetAllAsync());
+    [Authorize(Roles = "Schedule_access")] 
+    public async Task<IActionResult> GetAll() => Ok(await _orar.GetAllAsync());
 
     [HttpGet("{id:int}")]
+    [Authorize(Roles = "Schedule_access")]
     public async Task<IActionResult> GetById(int id)
     {
         var orar = await _orar.GetByIdAsync(id);

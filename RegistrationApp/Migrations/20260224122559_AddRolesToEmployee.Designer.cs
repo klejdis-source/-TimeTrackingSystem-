@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TimeTrackingSystem.Data;
 
@@ -11,9 +12,11 @@ using TimeTrackingSystem.Data;
 namespace TimeTrackingSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260224122559_AddRolesToEmployee")]
+    partial class AddRolesToEmployee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,6 +156,10 @@ namespace TimeTrackingSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Roles")
                         .HasColumnType("int");
 
@@ -178,6 +185,7 @@ namespace TimeTrackingSystem.Migrations
                             LastName = "User",
                             PasswordHash = "$2a$11$RJDla1K73tLW9St81vvftuKmpEXprsebCENr9m6js8T.slt/3zKNO",
                             Pozition = "System Administrator",
+                            Role = "Admin",
                             Roles = 0
                         });
                 });

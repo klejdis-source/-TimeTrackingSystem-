@@ -14,9 +14,9 @@ public class Attendance
     public DateTime Date { get; set; }
 
     [Required]
-    public DateTime CheckIn { get; set; }
+    public DateTime ClockIn { get; set; }
 
-    public DateTime? CheckOut { get; set; }
+    public DateTime? ClockOut { get; set; }
 
     public double WorkedHours { get; set; }
 
